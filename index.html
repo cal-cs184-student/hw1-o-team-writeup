@@ -51,15 +51,15 @@
 		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		To rasterize each triangle we test whether the center of the pixel lies inside it. It first checks that the framebuffer has nonzero dimensions and does not try to rasterize triangles with zero areas. Then we computed the triangles bounding box using the minimum and maximum x and y cordinates of its three vertices. Once we have those coordinates, we iterate through each pixel in the bounding box and test if it lies inside the triangle. Those points were turned into candidate pixel indices because the pixel (x, y) is samples at ( x + 1/2, y + 1/2), the horizontal candidate range starts at ceil(min_x - 1/2) and ends at floor(max_X -0.5). Then we calculate the vertical range in the same way and clip both ranges to the framebuffer boundaries. For each of those candidate pixels we evaluate three edge functions at its center. For a directed edge from A to B and sample point P, the helper edge function is: E(A, B, P) = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x). The sign indicates which side of the edges line containes the sample. The edges are calculated in order from V0 -> V1, V1 -> V2, and V2 -> V0. A sample is accpeted if all three edge vaules are nonnegative or all three are nonpositive. This is because both sign patterns allow the implementation to reasterize triangles with either clockwise or counterclockwise vertex orders. This also allows for samples that lie on the triangles boundary to be drawn. When a sample is then accepted, we call fill_pixel(x, y, color) using the integer pixel indices. Every accepted pixel recieves the same triangle color and this implementation uses one sample per pixel and includes all triangle edges instead of implementing the optional top-left edge rule. My implementation only tests pixel centers within the triangles bounding box, clipped to the framebuffer but it does not scan pixels elsewhere in the image. If the candidate region contains(B_w) columns and (B_h) rows the nested loop performs (B_wB_h) sample tests. Each test uses three edge function evaluations and a constant number of comparisons so the running time is (O(B_wB_h)). This meets the requirement that the algorithmn be no worse than checking every sample within the bounding box.
 
 		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="/Users/elenalepe/Desktop/classes/cs184/hw1/hw1-o-team/build-task1/screenshot_9-24_21-41-21.png" width="400px"/>
+				  <figcaption>Task one image.</figcaption>
 				</td>
 				<td style="text-align: center;">
 				  <img src="assets/lion.jpg" width="400px"/>
