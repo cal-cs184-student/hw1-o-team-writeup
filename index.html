@@ -135,8 +135,61 @@
 			The difference between nearest and bilinear sampling is largest in areas with fine details or strong color contrast, especially when a screen sample falls between texel centers. It also becomes more noticeable when a texture is stretched, rotated, or made smaller on the screen. Nearest sampling can skip back and forth between texels in those cases, while bilinear sampling blends the nearby values and makes the change less harsh.
 		</p>
 
-		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
+			<p>
+				Level sampling means choosing which mipmap level to sample instead of always using the full-resolution texture. A mipmap stores smaller versions of the same image. When a texture gets small on the screen, using one of those smaller levels gives each screen sample a color that already represents a larger area of the original texture. This helps stop tiny details from turning into noisy or flickering patterns.
+			</p>
+
+			<p>
+				To choose a level, we interpolate the texture coordinates at the current sample, one screen pixel to the right, and one screen pixel up. We subtract the current <i>uv</i> value from the other two to see how quickly the texture coordinates are changing across the screen. After scaling those changes by the full texture width and height, we take the larger length and use its base-2 logarithm as the mipmap level. Small changes stay close to level zero, while bigger changes use a smaller version of the texture.
+			</p>
+
+			<p>
+				For <code>L_ZERO</code>, we always sample level zero. For <code>L_NEAREST</code>, we round the calculated level and sample the closest mipmap. For <code>L_LINEAR</code>, we keep the level as a decimal, sample the two levels around it, and blend the results. Pixel sampling still works independently, so each chosen level can use either nearest or bilinear pixel sampling. Using <code>L_LINEAR</code> together with bilinear pixel sampling gives trilinear filtering.
+			</p>
+
+			<h3>Sampling tradeoffs</h3>
+			<p>
+				Nearest pixel sampling is the fastest because it reads one texel, but it can look blocky. Bilinear pixel sampling reads four texels and blends them, so it costs a little more time but gives smoother results when a sample lands between texels. It does not need extra texture levels, though, and by itself it cannot fully fix aliasing when a large part of a texture gets squeezed into a small number of pixels.
+			</p>
+
+			<p>
+				Level sampling is especially useful when the texture is being made smaller. Nearest level sampling adds the cost of calculating a mip level but still samples only one level. Linear level sampling samples two mip levels and blends them, so it is slower but avoids a sudden change when the selected level switches. Mipmaps also use extra memory because all of the smaller texture copies have to be stored. Supersampling works more generally on triangle edges and textures, but it needs a larger sample buffer and repeats the rasterization and texture work several times per pixel. This makes it the most expensive option as the sample rate goes up.
+			</p>
+
+			<h3>Level and pixel sampling comparison</h3>
+			<p>
+				For this comparison, we used a public-domain <a href="https://commons.wikimedia.org/wiki/File:Moire_1.png">Moir&eacute; pattern from Wikimedia Commons</a>. The close lines make aliasing easy to see. We kept the view, sample rate, and pixel inspector location the same in all four screenshots.
+			</p>
+
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center; width: 50%; vertical-align: top;">
+							<img src="assets/task6-lzero-pnearest.png" alt="Level zero with nearest pixel sampling" style="width: 100%;"/>
+							<figcaption>L_ZERO + P_NEAREST</figcaption>
+						</td>
+						<td style="text-align: center; width: 50%; vertical-align: top;">
+							<img src="assets/task6-lzero-plinear.png" alt="Level zero with bilinear pixel sampling" style="width: 100%;"/>
+							<figcaption>L_ZERO + P_LINEAR</figcaption>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center; width: 50%; vertical-align: top;">
+							<img src="assets/task6-lnearest-pnearest.png" alt="Nearest level with nearest pixel sampling" style="width: 100%;"/>
+							<figcaption>L_NEAREST + P_NEAREST</figcaption>
+						</td>
+						<td style="text-align: center; width: 50%; vertical-align: top;">
+							<img src="assets/task6-lnearest-plinear.png" alt="Nearest level with bilinear pixel sampling" style="width: 100%;"/>
+							<figcaption>L_NEAREST + P_LINEAR</figcaption>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<p>
+				The two level-zero images keep every line from the full-resolution texture, so the center turns into a very noisy pattern when those lines become smaller than a screen pixel. Bilinear pixel sampling softens the individual blocks in the inspector, but it does not remove most of that noise because it is still reading from level zero. With nearest level sampling, the center becomes much calmer because a smaller mipmap level averages the details before they reach the screen. Adding bilinear pixel sampling makes the transitions between nearby texels less harsh, so <code>L_NEAREST</code> with <code>P_LINEAR</code> looks the smoothest out of these four required combinations.
+			</p>
 
 		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
