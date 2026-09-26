@@ -89,7 +89,51 @@
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			Pixel sampling is how we choose a color from a texture for each sample that lands inside a textured triangle. For every covered subpixel, we first calculate its barycentric coordinates. We use those weights to interpolate the triangle's <i>u</i> and <i>v</i> texture coordinates, and then sample from level zero of the texture, which is the full-resolution image.
+		</p>
+
+		<p>
+			For nearest sampling, we map the <i>u</i> and <i>v</i> coordinates to texel coordinates, round to the closest texel, clamp the result to the texture boundaries, and use that texel's color. This is simple and fast, but it can create blocky changes because the color jumps as soon as a different texel becomes the closest one. For bilinear sampling, we find the four texels surrounding the sample point. We blend the top and bottom pairs using the horizontal fraction, then blend those two results using the vertical fraction. This gives us a smoother color between texels instead of immediately snapping to one texel.
+		</p>
+
+		<h3>Nearest and bilinear comparison</h3>
+		<p>
+			We used the pixel inspector on the Campanile windows because the dark windows, light walls, and thin horizontal ledges make the sampling differences easier to see.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center; width: 50%; vertical-align: top;">
+						<img src="assets/task5-nearest-1.png" alt="Nearest sampling at 1 sample per pixel" style="width: 100%;"/>
+						<figcaption>Nearest sampling, 1 sample per pixel</figcaption>
+					</td>
+					<td style="text-align: center; width: 50%; vertical-align: top;">
+						<img src="assets/task5-nearest-16.png" alt="Nearest sampling at 16 samples per pixel" style="width: 100%;"/>
+						<figcaption>Nearest sampling, 16 samples per pixel</figcaption>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center; width: 50%; vertical-align: top;">
+						<img src="assets/task5-bilinear-1.png" alt="Bilinear sampling at 1 sample per pixel" style="width: 100%;"/>
+						<figcaption>Bilinear sampling, 1 sample per pixel</figcaption>
+					</td>
+					<td style="text-align: center; width: 50%; vertical-align: top;">
+						<img src="assets/task5-bilinear-16.png" alt="Bilinear sampling at 16 samples per pixel" style="width: 100%;"/>
+						<figcaption>Bilinear sampling, 16 samples per pixel</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<p>
+			Nearest sampling at one sample per pixel has the most noticeable blocky and uneven transitions around the windows and ledges. Raising the sample rate to 16 makes the triangle edges and small features smoother because the final pixel averages several subpixel results, but nearest sampling still chooses only one texel for each subpixel. Bilinear sampling gives smoother changes between the light stone and dark windows because it blends nearby texels. The combination of bilinear sampling and 16 samples per pixel gives the smoothest result overall.
+		</p>
+
+		<p>
+			The difference between nearest and bilinear sampling is largest in areas with fine details or strong color contrast, especially when a screen sample falls between texel centers. It also becomes more noticeable when a texture is stretched, rotated, or made smaller on the screen. Nearest sampling can skip back and forth between texels in those cases, while bilinear sampling blends the nearby values and makes the change less harsh.
+		</p>
 
 		<h2>Task 6: "Level Sampling" with mipmaps for texture mapping</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
