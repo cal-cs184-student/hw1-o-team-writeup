@@ -28,27 +28,29 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Fall 2026 Homework 1 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Elena Lepe and Oscar Mendoza-Oliva </div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/fa26">cs184.eecs.berkeley.edu/fa26</a>
+		Link to webpage: (TODO) <a href="https://cal-cs184-student.github.io/hw1-o-team-writeup/">https://cal-cs184-student.github.io/hw1-o-team-writeup/</a>
 		
 		<br>
 
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/fa26">cs184.eecs.berkeley.edu/fa26</a>
+		Link to GitHub repository:  <a href="https://github.com/cal-cs184-student/hw1-o-team.git">https://github.com/cal-cs184-student/hw1-o-team.git</a>
 
-		<figure>
-			<img src="assets/lion.jpg" alt="Lion" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+		
 
 		<!--
 		We've already added one heading per task, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		<p>
+			In this homework we implemented a software rasterizer that turns SVG shapes into pixels on the screen. We implemented triangle rasterization, supersampling, transforms, barycentric coordinates, pixel sampling, and level sampling. 
+		</p>
+		<p>
+			One of the most interesting things we learned was how sampling affects image quality and how building these pieces helped us understand how geometric descriptions become a raster image.
+		</p>
 
 		<h2>Task 1: Drawing Single-Color Triangles</h2>
 		<p>
@@ -69,22 +71,8 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="/build-task1/screenshot_9-24_21-41-21.png" width="400px"/>
-				  <figcaption>Task one image.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="/build-task1/screenshot_9-24_21-41-21.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="assets/lion.jpg" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="assets/task2-n.png" width="400px"/>
+				  <figcaption>Task 1 Rendering.</figcaption>
 				</td>
 			  </tr>
 			</table>
@@ -104,21 +92,21 @@
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="/Users/elenalepe/Desktop/classes/cs184/hw1/hw1-o-team/build-task1/screenshot_9-26_17-42-48.png" width="400px"/>
-				  <figcaption>Rate 1.</figcaption>
+				  <img src="assets/task2-n.png" width="400px"/>
+				  <figcaption>Normal</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="/Users/elenalepe/Desktop/classes/cs184/hw1/hw1-o-team/build-task1/screenshot_9-26_17-43-5.png" width="400px"/>
+				  <img src="assets/task2-r1.png" width="400px"/>
 				  <figcaption>Rate 1.</figcaption>
 				</td>
 				<tr>
 				<tr>
 				<td style="text-align: center;">
-				  <img src="/Users/elenalepe/Desktop/classes/cs184/hw1/hw1-o-team/build-task1/screenshot_9-26_17-43-9.png" width="400px"/>
+				  <img src="assets/task2-r4.png" width="400px"/>
 				  <figcaption>Rate 4.</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="/Users/elenalepe/Desktop/classes/cs184/hw1/hw1-o-team/build-task1/screenshot_9-26_17-43-17.png" width="400px"/>
+				  <img src="assets/task2-r16.png" width="400px"/>
 				  <figcaption>Rate 16.</figcaption>
 				</td>
 			  </tr>
@@ -127,7 +115,28 @@
 
 
 		<h2>Task 3: Transforms</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			We modified the cubeman to look like hes waving hello and changed his color to teal. To do this we raies one arm and bent the forearm upwards and we also tilted his head and angled his leg. 
+		</p>
+		<p> 
+			We used translation to position the cubemans body parts, scaling to control its proportions and rotation to change its orientations. Hierarchical transforms allowed the forearm to move with its parent arm while also having its own roation for the elbow bend. 
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+				<td style="text-align: center;">
+				  <img src="assets/task3-n.png" width="400px"/>
+				  <figcaption>Normal Robot</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="assets/task3-t.png" width="400px"/>
+				  <figcaption>Transformed Robot</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		
 
 		<h2>Task 4: Barycentric coordinates</h2>
 		Barycentric coordinates describe a point as a weighted comnbination of a triangles three vertices. The weights sum to one and are nonnegative inside the triangle. At their vertex the weight is one and the other two are zero. At the centroid each weight is one-third. 
@@ -138,7 +147,31 @@
 
 		In the RGB triangle, each vertex has its assigned color while the interior colors blend according to three weights. Along an edge ony its two endpoint colors contribute to the interior colots and at the centriod all three contribute equally. 
 
-		img. 
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="assets/task4-n.png" width="400px"/>
+				  <figcaption>Normal</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="assets/task4-g.png" width="400px"/>
+				  <figcaption>Green gradient</figcaption>
+				</td>
+				<tr>
+				<tr>
+				<td style="text-align: center;">
+				  <img src="assets/task4-y.png" width="400px"/>
+				  <figcaption>Yellow gradient</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="assets/task4-o.png" width="400px"/>
+				  <figcaption>Orange gradient</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		 
 
 		<h2>Task 5: "Pixel sampling" for texture mapping</h2>
 		<p>
@@ -243,8 +276,6 @@
 				The two level-zero images keep every line from the full-resolution texture, so the center turns into a very noisy pattern when those lines become smaller than a screen pixel. Bilinear pixel sampling softens the individual blocks in the inspector, but it does not remove most of that noise because it is still reading from level zero. With nearest level sampling, the center becomes much calmer because a smaller mipmap level averages the details before they reach the screen. Adding bilinear pixel sampling makes the transitions between nearby texels less harsh, so <code>L_NEAREST</code> with <code>P_LINEAR</code> looks the smoothest out of these four required combinations.
 			</p>
 
-		<h2>(Optional) Task 7: Extra Credit - Draw Something Creative!</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</div>
 	</body>
 </html>
